@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import zest from './data/jokes';
+
 class App extends Component {
   render() {
+
+    console.log('zestiz', zest);
     return (
       <div className="App">
         <header className="App-header">
@@ -17,7 +21,7 @@ class App extends Component {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn Reactz
+            Learn React
           </a>
         </header>
       </div>
