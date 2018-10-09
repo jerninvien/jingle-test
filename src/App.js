@@ -1,28 +1,46 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './assets/logo.png';
 import './App.css';
 
 import zest from './data/jokes';
 
 class App extends Component {
+
+  state = {
+    jokes: {}
+  }
+
+  componentWillMount = () => {
+    console.log('App.js componentWillMount');
+
+    this.setState({
+      jokes: zest
+    })
+  }
+
+  componentDidMount = () => {
+    console.log('App.js componentDidMount');
+
+  }
+
+
   render() {
 
-    console.log('zestiz', zest);
+    console.log('state jokes are', this.state.jokes);
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            Joke Generator
           </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+
+          <button
+            type="button"
+            name="testNowBtn"
+            className="App-button">
+            Fetch Joke
+          </button>
         </header>
       </div>
     );
