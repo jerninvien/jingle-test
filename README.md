@@ -1,7 +1,46 @@
-Jokes were scraped using this gist [jokes.js](https://gist.github.com/jerninvien/74250a8616b267f60a27b5da2560c57e).
+Jokes were scraped from AWS to a local file using this node script: [jokes.js](https://gist.github.com/jerninvien/74250a8616b267f60a27b5da2560c57e).
 
-Below you will find some information on how to perform common tasks.<br>
-You can find the most recent version of this guide [here](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md).
+Jingle Test is hosted on AWS S3 [here](http://jingle-joke-test.s3-website.eu-central-1.amazonaws.com/).
+
+Jingle Test did not require Redux or React Router.
+
+Jingle Test uses a static gif for animated effect. Directly copying the [Dad Jokes](https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_joke) example would have been possible, but would have taken an additional 4-6 hours of work.
+
+Creating a fully custom animation to match the above example would have required approximately 2-4 days of hardcore HTML / CSS grinding.
+
+## Folder Structure
+
+Project setup looks like this:
+
+```
+jingle-test/
+  README.md
+  package.json
+  yarn.lock
+  build/
+    static/
+      css/
+      js/
+      media/
+  node_modules/
+  public/
+  src/
+    assets/
+    components/
+      JokeText/
+      LightBox/
+      Timer/
+    App.css
+    App.js
+    App.test.js
+    index.css
+    index.js
+    logo.svg
+```
+
+
+
+
 
 ## Table of Contents
 
@@ -127,26 +166,6 @@ We commit to keeping the breaking changes minimal so you can upgrade `react-scri
 
 We are always open to [your feedback](https://github.com/facebook/create-react-app/issues).
 
-## Folder Structure
-
-After creation, your project should look like this:
-
-```
-my-app/
-  README.md
-  node_modules/
-  package.json
-  public/
-    index.html
-    favicon.ico
-  src/
-    App.css
-    App.js
-    App.test.js
-    index.css
-    index.js
-    logo.svg
-```
 
 For the project to build, **these files must exist with exact filenames**:
 
@@ -225,4 +244,3 @@ While we recommend using experimental proposals with some caution, Facebook heav
 Note that **this project includes no [polyfills](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md)** by default.
 
 If you use any other ES6+ features that need **runtime support** (such as `Array.from()` or `Symbol`), make sure you are [including the appropriate polyfills manually](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md), or that the browsers you are targeting already support them.
-
