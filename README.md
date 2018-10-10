@@ -1,10 +1,6 @@
 Jokes were scraped from AWS to a local file using this node script: [jokes.js](https://gist.github.com/jerninvien/74250a8616b267f60a27b5da2560c57e).
 
-Jingle Test is hosted on AWS S3 [here](http://jingle-joke-test.s3-website.eu-central-1.amazonaws.com/).
-
-Jingle Test did not require Redux or React Router.
-
-Jingle Test uses a static gif for animated effect. Directly copying the [Dad Jokes](https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_joke) example would have been possible, but would have taken an additional 4-6 hours of work.
+Jingle Test is hosted on AWS S3 [here](http://jingle-joke-test.s3-website.eu-central-1.amazonaws.com/). It did not require Redux or React Router. I used a static gif for the animated effect. Directly copying the [Dad Jokes](https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_joke) example would have been possible, but would have taken an additional 4-6 hours of work.
 
 Creating a fully custom animation to match the above example would have required approximately 2-4 days of hardcore HTML / CSS grinding.
 
