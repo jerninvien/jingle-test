@@ -23,7 +23,7 @@ export default class App extends Component {
   state = {
     imageLoading: false,
     imageSource: '',
-    jokeCount: 0,
+    jokeCounter: 0,
     jokes: localJokes,
     currentJoke: {
       punchline: '',
@@ -52,7 +52,7 @@ export default class App extends Component {
       currentJoke: nextJoke,
       imageLoading: true,
       imageSource: localGif,
-      jokeCount: this.state.jokeCount + 1
+      jokeCounter: this.state.jokeCounter + 1
     });
 
     const nlpOnJoke = nlp(nextJoke.setup + ' ' + nextJoke.punchline);
@@ -72,14 +72,14 @@ export default class App extends Component {
     }
   }
 
-  resetCounter = () => this.setState({ jokeCount: 0 })
+  resetCounter = () => this.setState({ jokeCounter: 0 })
 
   render() {
-    const { imageLoading, imageSource, jokeCount} = this.state;
+    const { imageLoading, imageSource, jokeCounter} = this.state;
 
     return (
       <div className='App'>
-        {jokeCount > 9 &&
+        {jokeCounter > 9 &&
           <Lightbox durationSeconds={300} resetCounter={this.resetCounter} />
         }
 
@@ -92,7 +92,7 @@ export default class App extends Component {
             onClick={this.onButtonClick}
             type='button'
           >
-            Get Joke {this.state.jokeCount}
+            Get Joke {this.state.jokeCounter}
           </button>
 
           <JokeText jokeText={this.state.currentJoke.setup}/>
