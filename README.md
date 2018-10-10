@@ -28,6 +28,8 @@ Changing the URL in state triggers re-rendering and a new search to an external 
 https://loremflickr.com/640/480/${imageSource}
 ```
 
+The noun that triggers new searches is logged to the console. Please enjoy the NLP magic there.
+
 A static gif was used for the animated effect. Directly copying the [Dad Jokes](https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_joke) animation would have taken approximately 4-6 hours extra work. Creating a fully customised animation would have required approximately 2-4 days of hardcore HTML / CSS grinding.
 
 Finally, the styling was done with default `css`, but using `sass` or `scss` can provide more options.
