@@ -1,98 +1,90 @@
 import React, { Component } from 'react';
-import nlp  from 'compromise';
+import nlp  from 'compromise'; // One of the best NLPs
 
+// Normally I would set up a public interface in an
+// components/index.js file in components/ to simplify the below
+// imports but did not have time now see following link:
+// https://alligator.io/react/index-js-public-interfaces/
+import { Lightbox } from 'components/LightBox/lightbox';
+import { JokeText } from 'components/JokeText/joketext';
+
+// Preload local jokes scraped from https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_joke
 import localJokes from './data/jokes';
 
-import Lightbox from './components/lightbox';
-import logo from './assets/logo.png';
 import './App.css';
+import logo from './assets/logo.png';
 
-
+// Import local GIF once to avoid repeated requires inside App class
+import localGif from './assets/7yAl.gif';
 const loremflickrURL = 'https://loremflickr.com/640/480/';
 
-class App extends Component {
+
+export default class App extends Component {
   state = {
     imageLoading: false,
-    imageSource: require('./assets/7yAl.gif'),
+    imageSource: '',
     jokeCount: 0,
     jokes: localJokes,
     currentJoke: {
       punchline: '',
-      setup: 'Click button for a random joke!'
+      setup: 'Click above for a joke!'
     },
   }
 
   onButtonClick = e => {
     e.preventDefault();
 
+    // Get random joke from json local cache
     const nextJoke = this.getRandomJoke(this.state.jokes);
-    this.setImageSource(nextJoke);
+
+    // Run *simple* NLP on joke text to extract nouns and fetch
+    // image from random image API based on keyword search
+    this.setImageBasedOnJokeText(nextJoke);
   }
 
   getRandomJoke = obj => {
-    const keys = Object.keys(obj)
+    const keys = Object.keys(obj);
     return obj[keys[ keys.length * Math.random() << 0]];
   }
 
-  setImageSource = nextJoke => {
+  setImageBasedOnJokeText = nextJoke => {
     this.setState({
       currentJoke: nextJoke,
       imageLoading: true,
-      imageSource: require('./assets/7yAl.gif'),
+      imageSource: localGif,
       jokeCount: this.state.jokeCount + 1
     });
 
-    const nlpJoke = nlp(nextJoke.setup + ' ' + nextJoke.punchline);
-    const nouns = nlpJoke.nouns().out('text');
+    const nlpOnJoke = nlp(nextJoke.setup + ' ' + nextJoke.punchline);
+    const filteredNouns = nlpOnJoke.nouns().out('text').split(' ').filter(w => w.length > 2);
+    const randomNoun = filteredNouns[filteredNouns.length * Math.random() << 0] || "";
 
-    if (nouns.length > 0) {
-      setTimeout(() => {
-        const nounz = nouns.split(' ').filter(w => w.length > 2);
-        const randomWord = nounz[nounz.length * Math.random() << 0];
+    console.log('randomNoun', randomNoun);
 
-        this.setState({ imageSource: loremflickrURL + randomWord });
-      }, 500);
-    } else {
-      this.setState({ imageSource: loremflickrURL });
-    }
+    setTimeout(() => {
+      this.setState({ imageSource: loremflickrURL+randomNoun });
+    }, 250 + Math.random()*1000);
   }
 
   onLoad = e => {
     if (e.target.src.includes('loremflickr')) {
-      this.setState({
-        imageLoading: false,
-      });
+      this.setState({ imageLoading: false });
     }
   }
 
-  resetCounter = () => {
-    this.setState({ jokeCount: 0 });
-  }
+  resetCounter = () => this.setState({ jokeCount: 0 })
 
   render() {
-    // console.log('state jokes are', this.state);
-
-    const {
-      imageLoading,
-      imageSource,
-      jokeCount,
-    } = this.state;
+    const { imageLoading, imageSource, jokeCount} = this.state;
 
     return (
       <div className='App'>
-        {jokeCount > 2 &&
-          <Lightbox
-            durationSeconds={300}
-            resetCounter={this.resetCounter}
-          />
+        {jokeCount > 9 &&
+          <Lightbox durationSeconds={300} resetCounter={this.resetCounter} />
         }
 
         <header className='App-header'>
-          <img
-            alt='logo'
-            className='App-logo'
-            src={logo}
-          />
+          <img alt='logo' className='App-logo' src={logo} />
           <button
             className='App-button'
             disabled={imageLoading}
@@ -103,28 +95,18 @@ class App extends Component {
             Get Joke {this.state.jokeCount}
           </button>
 
-          <div className='App-texts'>
-            <p>{this.state.currentJoke.setup}</p>
-          </div>
+          <JokeText jokeText={this.state.currentJoke.setup}/>
 
           <div className='ImageWrapper'>
-            <img
-              alt=''
-              className='Image'
-              onLoad={this.onLoad}
-              src={imageSource}
-            />
+            <img alt='' className='Image' onLoad={this.onLoad} src={imageSource} />
           </div>
 
-          <div className='App-texts'>
-            {(imageSource.includes('loremflickr') && !imageLoading) &&
-              <p>{this.state.currentJoke.punchline}</p>
-            }
-          </div>
+          <JokeText
+            jokeText={this.state.currentJoke.punchline}
+            showText={imageSource.includes('loremflickr') && !imageLoading}
+          />
         </header>
       </div>
     );
   }
 }
-
-export default App;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class SecondTimer extends Component {
+export class SecondTimer extends Component {
   static propTypes = {
     durationSeconds: PropTypes.number.isRequired,
     resetCounter: PropTypes.func.isRequired
