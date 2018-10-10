@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import nlp  from 'compromise';
-import SecondTimer from './components/timer';
 
+import localJokes from './data/jokes';
+
+import Lightbox from './components/lightbox';
 import logo from './assets/logo.png';
 import './App.css';
 
-import localJokes from './data/jokes';
 
 const loremflickrURL = 'https://loremflickr.com/640/480/';
 
@@ -14,7 +15,6 @@ class App extends Component {
     imageLoading: false,
     imageSource: require('./assets/7yAl.gif'),
     jokeCount: 0,
-    jokeTimer: 0,
     jokes: localJokes,
     currentJoke: {
       punchline: '',
@@ -26,25 +26,7 @@ class App extends Component {
     e.preventDefault();
 
     const nextJoke = this.getRandomJoke(this.state.jokes);
-
-    const nlpJoke = nlp(nextJoke.setup + ' ' + nextJoke.punchline);
-    const nouns = nlpJoke.nouns().out('text');
-
-    this.setState({
-      currentJoke: nextJoke,
-      imageLoading: true,
-      imageSource: require('./assets/7yAl.gif'),
-      jokeCount: this.state.jokeCount + 1
-    });
-
-    if (nouns.length > 0) {
-      this.setImageSource(nouns);
-    } else {
-      this.setState({
-        currentJoke: nextJoke,
-        imageSource: loremflickrURL
-      });
-    }
+    this.setImageSource(nextJoke);
   }
 
   getRandomJoke = obj => {
@@ -52,16 +34,27 @@ class App extends Component {
     return obj[keys[ keys.length * Math.random() << 0]];
   }
 
-  setImageSource = (nouns) => {
-    setTimeout(() => {
-      // console.log('getRandomWord', nouns);
-      const nounz = nouns.split(' ').filter(w => w.length > 2);
-      const randomWord = nounz[nounz.length * Math.random() << 0];
+  setImageSource = nextJoke => {
+    this.setState({
+      currentJoke: nextJoke,
+      imageLoading: true,
+      imageSource: require('./assets/7yAl.gif'),
+      jokeCount: this.state.jokeCount + 1
+    });
 
-      this.setState({
-        imageSource: loremflickrURL + randomWord
-      });
-    }, 1000);
+    const nlpJoke = nlp(nextJoke.setup + ' ' + nextJoke.punchline);
+    const nouns = nlpJoke.nouns().out('text');
+
+    if (nouns.length > 0) {
+      setTimeout(() => {
+        const nounz = nouns.split(' ').filter(w => w.length > 2);
+        const randomWord = nounz[nounz.length * Math.random() << 0];
+
+        this.setState({ imageSource: loremflickrURL + randomWord });
+      }, 500);
+    } else {
+      this.setState({ imageSource: loremflickrURL });
+    }
   }
 
   onLoad = e => {
@@ -87,17 +80,11 @@ class App extends Component {
 
     return (
       <div className='App'>
-        {jokeCount > 9 &&
-          <div className='App-lightbox' onClick={this.resetCounter}>
-            <div className='App-opacity-box'></div>
-            <p className='App-lightbox-text'>
-              Joke Limit Reached. Please wait
-              {<SecondTimer
-                  durationSeconds={300}
-                  resetCounter={this.resetCounter}
-                />} for the next batch!
-            </p>
-          </div>
+        {jokeCount > 2 &&
+          <Lightbox
+            durationSeconds={300}
+            resetCounter={this.resetCounter}
+          />
         }
 
         <header className='App-header'>

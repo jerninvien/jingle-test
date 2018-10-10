@@ -8,26 +8,18 @@ export default class SecondTimer extends Component {
   }
 
   state = {
-    timeRemaining: 600
+    timeRemaining: '5:00'
   }
 
   componentDidMount = () => {
-    this.startTimer(this.props.durationSeconds);
-  }
-
-  // Adapted from https://stackoverflow.com/a/20618517
-  startTimer = duration => {
-    let timer = duration;
-
+    // Adapted from https://stackoverflow.com/a/20618517
+    let timer = this.props.durationSeconds;
     this._timerRef = setInterval(() => {
       let minutes = parseInt(timer / 60, 10);
       let seconds = parseInt(timer % 60, 10);
-
       seconds = seconds < 10 ? "0" + seconds : seconds;
 
-      this.setState({
-        timeRemaining: minutes + ":" + seconds
-      });
+      this.setState({ timeRemaining: minutes + ":" + seconds });
 
       if (--timer < 0) {
         this.props.resetCounter();
@@ -36,9 +28,8 @@ export default class SecondTimer extends Component {
   }
 
   componentWillUnmount = () => {
-    console.log('Timer componentWillUnmount');
     if (this._timerRef) {
-      clearInterval(this._timerRef);  
+      clearInterval(this._timerRef);
     }
   }
 
