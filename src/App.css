@@ -1,3 +1,7 @@
+body {
+  background-color: #f13134;
+}
+
 p {
   margin: 0px 25px;
 }
@@ -12,6 +16,31 @@ p {
   min-width: 180px;
   max-width: 360px;
   margin: 20px 0px;
+}
+
+.App-lightbox {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App-opacity-box {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background: rgba(0,0,0,0.6);
+}
+
+.App-lightbox-text {
+  font-size: 8vmin;
+  color: #fff;
+  z-index: 30;
 }
 
 .App-header {

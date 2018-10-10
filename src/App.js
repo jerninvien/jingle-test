@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import nlp  from 'compromise';
-import axios from 'axios';
+import SecondTimer from './components/timer';
 
 import logo from './assets/logo.png';
 import './App.css';
@@ -14,10 +14,11 @@ class App extends Component {
     imageLoading: false,
     imageSource: require('./assets/7yAl.gif'),
     jokeCount: 0,
+    jokeTimer: 0,
     jokes: localJokes,
     currentJoke: {
       punchline: '',
-      setup: 'Click above to see a random joke!'
+      setup: 'Click button for a random joke!'
     },
   }
 
@@ -71,20 +72,46 @@ class App extends Component {
     }
   }
 
+  resetCounter = () => {
+    this.setState({ jokeCount: 0 });
+  }
+
   render() {
     // console.log('state jokes are', this.state);
-    const gifSource = require('./assets/7yAl.gif');
-    const { imageLoading, imageSource } = this.state;
+
+    const {
+      imageLoading,
+      imageSource,
+      jokeCount,
+    } = this.state;
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+      <div className='App'>
+        {jokeCount > 9 &&
+          <div className='App-lightbox' onClick={this.resetCounter}>
+            <div className='App-opacity-box'></div>
+            <p className='App-lightbox-text'>
+              Joke Limit Reached. Please wait
+              {<SecondTimer
+                  durationSeconds={300}
+                  resetCounter={this.resetCounter}
+                />} for the next batch!
+            </p>
+          </div>
+        }
+
+        <header className='App-header'>
+          <img
+            alt='logo'
+            className='App-logo'
+            src={logo}
+          />
           <button
-            className="App-button"
-            name="testNowBtn"
+            className='App-button'
+            disabled={imageLoading}
+            name='testNowBtn'
             onClick={this.onButtonClick}
-            type="button"
+            type='button'
           >
             Get Joke {this.state.jokeCount}
           </button>
@@ -94,7 +121,12 @@ class App extends Component {
           </div>
 
           <div className='ImageWrapper'>
-            <img className='Image' src={imageSource} onLoad={this.onLoad}/>
+            <img
+              alt=''
+              className='Image'
+              onLoad={this.onLoad}
+              src={imageSource}
+            />
           </div>
 
           <div className='App-texts'>
