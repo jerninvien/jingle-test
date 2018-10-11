@@ -57,7 +57,9 @@ export default class App extends Component {
 
     const nlpOnJoke = nlp(nextJoke.setup + ' ' + nextJoke.punchline);
     const filteredNouns = nlpOnJoke.nouns().out('text').split(' ').filter(w => w.length > 2);
-    const randomNoun = filteredNouns[filteredNouns.length * Math.random() << 0] || "";
+    let randomNoun = filteredNouns[filteredNouns.length * Math.random() << 0] || "";
+
+    randomNoun = randomNoun.replace(/[.,\/#!\]?'$%\^&\*;:{}=\-_`~()]/g,"");
 
     console.log('randomNoun', randomNoun);
 
