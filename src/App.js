@@ -16,7 +16,7 @@ import logo from './assets/logo.png';
 
 // Import local GIF once to avoid repeated requires inside App class
 import localGif from './assets/7yAl.gif';
-const loremflickrURL = 'https://loremflickr.com/640/480/';
+const loremflickrURL = 'https://loremflickr.com/800/600/';
 
 
 export default class App extends Component {
