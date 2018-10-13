@@ -17,7 +17,7 @@ const filteredNouns = nlpOnJoke.nouns().out('text').split(' ').filter(w => w.len
 const randomNoun = filteredNouns[filteredNouns.length * Math.random() << 0] || "";
 
 setTimeout(() => {
-  this.setState({ imageSource: loremflickrURL+randomNoun });
+  this.setState({ imageSource: lo remflickrURL+randomNoun });
 }, 250 + Math.random()*1000);
 ```
 

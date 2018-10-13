@@ -18,7 +18,6 @@ import logo from './assets/logo.png';
 import localGif from './assets/7yAl.gif';
 const loremflickrURL = 'https://loremflickr.com/800/600/';
 
-
 export default class App extends Component {
   state = {
     imageLoading: false,
